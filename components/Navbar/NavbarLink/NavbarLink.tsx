@@ -21,7 +21,7 @@ interface NavbarLinkProps {
 const NavbarLink = ({href, icon, children, pathname}: NavbarLinkProps) => {
 
   return (
-    <Link href={href} className={`grid place-items-center w-full py-4 ${pathname === href ? 'bg-primary' : ''}`}>
+    <Link href={href} className={`grid place-items-center w-full py-4 ${pathname === href ? 'bg-primary' : ''}`} data-testid="nav-link">
       {icon}
       <div className="uppercase hidden sm:block text-xs mt-2">{children}</div>
     </Link>

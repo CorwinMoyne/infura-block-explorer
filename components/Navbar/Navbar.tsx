@@ -10,7 +10,7 @@ import { NavbarLink } from "./NavbarLink";
 
 /**
  * The sidebar navigation
- * 
+ *
  * @returns JSX.Element
  */
 const Navbar = () => {
@@ -30,6 +30,7 @@ const Navbar = () => {
             width={48}
             height={48}
             priority
+            data-testid="nav-logo"
           />
         </Link>
       </div>
