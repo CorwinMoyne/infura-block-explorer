@@ -15,7 +15,7 @@ const config: Config = {
       },
       colors: {
         primary: "#534994",
-        "primary-light": "#6C62AE",
+        "primary-light": "#6C62AB",
         "primary-dark": "#372E73",
         kimberly: {
           "50": "#f3f5fa",
