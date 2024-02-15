@@ -1,4 +1,4 @@
-import { Block } from "./block";
+import { Block, Transaction } from "./block";
 
-export { type Block };
+export { type Block, type Transaction };
 

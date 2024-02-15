@@ -14,7 +14,7 @@ interface BlockProps {
  */
 const Block = ({ block }: BlockProps) => {
   return (
-    <div className="text-kimberly-100 bg-kimberly-700 grid gap-4">
+    <div className="text-kimberly-100 bg-kimberly-700 grid gap-4 max-w-[245px]">
       <BlockHeader
         blockNumber={block.number}
         noOfTransactions={block.transactions.length}
@@ -26,3 +26,4 @@ const Block = ({ block }: BlockProps) => {
 };
 
 export default Block;
+

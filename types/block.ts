@@ -21,3 +21,11 @@ export interface Block {
   transactionsRoot: string;
   uncles: any[];
 }
+
+export interface Transaction {
+  from: string;
+  to: string;
+  ethValue: string;
+  dollarValue: string;
+  exchangeRate: string;
+}

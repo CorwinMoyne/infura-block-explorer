@@ -2,4 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+#arrow {
+  visibility: hidden;
+}
+
+#arrow::before {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: white;
+  top: 4px;
+  left: -6px;
+  visibility: visible;
+  content: "";
+  transform: rotate(45deg);
+}
+
+
 

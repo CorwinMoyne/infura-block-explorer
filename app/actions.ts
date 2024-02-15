@@ -1,6 +1,6 @@
 "use server";
 
-import { Block } from "@/types";
+import { Block, Transaction } from "@/types";
 import { Web3 } from "web3";
 
 const provider = `https://${process.env.NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`;
@@ -51,4 +51,42 @@ export async function getBlocks() {
   }
 
   return blocks;
+}
+
+export async function getTransactionData(hash: string | undefined): Promise<Transaction | undefined> {
+  if(!hash) {
+    return;
+  }
+  const transaction = await web3.eth.getTransaction(hash);
+  const ethValue = web3.utils.fromWei(transaction.value, "ether");
+
+  console.log('ethValue', ethValue);
+  
+
+  const {from, to} = transaction;
+  // console.log("eth", eth);
+
+  const response = await fetch(
+    "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=176883d9231478ea2717439a9b0722905eb7ad512bc5dea7458cb5adebcefc17"
+  );
+  const { USD } = await response.json();
+
+  // console.log('transaction', transaction);
+  
+
+  console.log("usd", USD);
+
+  const dollarValue = (USD * Number(ethValue)).toFixed(2);
+
+  console.log("dollars", (USD * Number(ethValue)).toFixed(2));
+
+  // from
+
+  return {
+    from,
+    to: to as string,
+    ethValue: Math.round(Number(ethValue)).toFixed(2),
+    dollarValue,
+    exchangeRate: USD
+  };
 }
