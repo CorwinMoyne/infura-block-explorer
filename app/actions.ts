@@ -36,14 +36,14 @@ export async function getGasPrice() {
 
 /**
  * Returns a list of blocks limited in length
- * 
+ *
  * @returns Promise<Block[]>
  */
 export async function getBlocks() {
   const latestBlock = await web3.eth.getBlockNumber();
   const blocks: Block[] = [];
 
-  for (var i = 0; i < 1; i++) {
+  for (var i = 0; i < 4; i++) {
     const block = (await web3.eth.getBlock(
       Number(latestBlock) - i
     )) as unknown as Block;
@@ -53,40 +53,28 @@ export async function getBlocks() {
   return blocks;
 }
 
-export async function getTransactionData(hash: string | undefined): Promise<Transaction | undefined> {
-  if(!hash) {
+export async function getTransactionData(
+  hash: string | undefined
+): Promise<Transaction | undefined> {
+  if (!hash) {
     return;
   }
   const transaction = await web3.eth.getTransaction(hash);
   const ethValue = web3.utils.fromWei(transaction.value, "ether");
-
-  console.log('ethValue', ethValue);
-  
-
-  const {from, to} = transaction;
-  // console.log("eth", eth);
+  const { from, to } = transaction;
 
   const response = await fetch(
-    "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=176883d9231478ea2717439a9b0722905eb7ad512bc5dea7458cb5adebcefc17"
+    `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${process.env.CRYPTO_COMPARE_API_KEY}`
   );
+
   const { USD } = await response.json();
-
-  // console.log('transaction', transaction);
-  
-
-  console.log("usd", USD);
-
   const dollarValue = (USD * Number(ethValue)).toFixed(2);
-
-  console.log("dollars", (USD * Number(ethValue)).toFixed(2));
-
-  // from
 
   return {
     from,
     to: to as string,
     ethValue: Math.round(Number(ethValue)).toFixed(2),
     dollarValue,
-    exchangeRate: USD
+    exchangeRate: USD,
   };
 }

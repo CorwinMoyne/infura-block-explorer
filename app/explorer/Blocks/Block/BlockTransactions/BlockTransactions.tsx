@@ -13,7 +13,7 @@ interface BlockTransactionsProps {
  */
 const BlockTransactions = ({ transactions }: BlockTransactionsProps) => {
   return (
-    <div className="grid grid-cols-10 gap-[0.6rem] px-3 pb-4">
+    <div className="grid grid-cols-10 gap-[0.6rem] px-3 pb-4 min-h-[265px]">
       {transactions.map((transaction) => (
         <React.Fragment key={transaction}>
           {<BlockTransaction hash={transaction} />}
