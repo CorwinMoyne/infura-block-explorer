@@ -8,26 +8,36 @@ interface BlockHeaderProps {
 
 /**
  * The block header
- * 
+ *
  * @param blockNumber      The block number
  * @param noOfTransactions The no of transactions on the block
  * @param timestamp        The block timestamp
  * @returns JSX.Element
  */
-const BlockHeader = ({ blockNumber, noOfTransactions, timestamp }: BlockHeaderProps) => {
+const BlockHeader = ({
+  blockNumber,
+  noOfTransactions,
+  timestamp,
+}: BlockHeaderProps) => {
   return (
-    <div className="flex justify-between">
-      <div className="grid gap-1">
-        <div>#{toCommaSeparated(blockNumber.toString())}</div>
-        <div className="flex space-x-3 text-sm" data-testid="block-header-timestamp">
-          <span>mined</span>
-          <span>{durationFromDate(timestamp.toString())} </span><span>ago</span>
+    <div className="border-b-[1px] border-kimberly-400">
+      <div className="py-4 px-3 w-full flex justify-between">
+        <div className="grid gap-1">
+          <div>#{toCommaSeparated(blockNumber.toString())}</div>
+          <div
+            className="flex space-x-3 text-sm"
+            data-testid="block-header-timestamp"
+          >
+            <span>mined</span>
+            <span>{durationFromDate(timestamp.toString())} </span>
+            <span>ago</span>
+          </div>
         </div>
-      </div>
 
-      <div className="flex space-x-3" data-testid="block-header-transactions">
-        <span>{noOfTransactions}</span>
-        <span>TXs</span>
+        <div className="flex space-x-3" data-testid="block-header-transactions">
+          <span>{noOfTransactions}</span>
+          <span>TXs</span>
+        </div>
       </div>
     </div>
   );
