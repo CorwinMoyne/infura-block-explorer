@@ -8,7 +8,7 @@ const web3 = new Web3(web3Provider);
 
 /**
  * Returns the latest block number
- * 
+ *
  * @returns string | undefined
  */
 export async function getLatestBlock() {
@@ -19,10 +19,9 @@ export async function getLatestBlock() {
   }
 }
 
-
 /**
  * Returns the gas price
- * 
+ *
  * @returns number | undefined
  */
 export async function getGasPrice() {

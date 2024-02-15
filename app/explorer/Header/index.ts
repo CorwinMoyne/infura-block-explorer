@@ -1,3 +1,5 @@
 import Header from "./Header";
+import HeaderLoadingSkeleton from "./HeaderLoadingSkeleton";
 
-export { Header };
+export { Header, HeaderLoadingSkeleton };
+

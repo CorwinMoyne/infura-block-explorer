@@ -1,19 +1,18 @@
+import { getGasPrice, getLatestBlock } from "@/app/actions";
 import { HeaderData } from "./HeaderData";
 import { HeaderItem } from "./HeaderItem";
-
-interface HeaderProps {
-  currentBlockNumber?: string;
-  averageGasPrice?: number;
-}
 
 /**
  * The explorer page header
  *
- * @param currentBlockNumber The current block number
- * @param averageGasPrice    The average gas price
  * @returns JSX.Element
  */
-const Header = ({ currentBlockNumber, averageGasPrice }: HeaderProps) => {
+const Header = async () => {
+  const [currentBlockNumber, averageGasPrice] = await Promise.all([
+    getLatestBlock(),
+    getGasPrice(),
+  ]);
+
   return (
     <section
       className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14 bg-primary-dark px-10 py-14 w-full"

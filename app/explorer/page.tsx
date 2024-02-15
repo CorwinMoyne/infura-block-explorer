@@ -1,15 +1,12 @@
-import { getGasPrice, getLatestBlock } from "../actions";
-import { Header } from "./Header";
+import { Suspense } from "react";
+import { Header, HeaderLoadingSkeleton } from "./Header";
 
 const Explorer = async () => {
-
-  const [currentBlockNumber, averageGasPrice] = await Promise.all([getLatestBlock(), getGasPrice()]);  
-
   return (
     <section>
-      <div>
-        <Header currentBlockNumber={currentBlockNumber} averageGasPrice={averageGasPrice} />
-      </div>
+      <Suspense fallback={<HeaderLoadingSkeleton />}>
+        <Header />
+      </Suspense>
     </section>
   );
 };
