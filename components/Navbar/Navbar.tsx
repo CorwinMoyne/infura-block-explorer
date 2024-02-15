@@ -17,7 +17,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-primary-light min-h-screen w-12 text-white flex flex-col items-center sm:w-24">
+    <nav className="bg-primary-light min-h-screen w-12 text-white flex flex-col items-center sm:w-24" aria-label="Main">
       <div className="border-b-[1px] border-primary w-full pb-4 pt-5 flex justify-center items-center">
         <Link
           href={Route.Dashboard}
