@@ -1,9 +1,9 @@
 import { Navbar } from "@/components";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Quicksand } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Quicksand({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-primary text-kimberly-500 flex`}>
+      <body className={`${font.className} bg-primary text-kimberly-500 flex`}>
         <Navbar />
-        <main className="flex-grow">{children}</main>
+        <main className="flex-g">{children}</main>
       </body>
     </html>
   );
