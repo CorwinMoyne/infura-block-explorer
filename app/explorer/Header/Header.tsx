@@ -1,4 +1,5 @@
 import { getGasPrice, getLatestBlock } from "@/app/actions";
+import { toCommaSeparated } from "@/utils/toCommaSeparated/toCommaSeparated";
 import { HeaderData } from "./HeaderData";
 import { HeaderItem } from "./HeaderItem";
 
@@ -20,7 +21,7 @@ const Header = async () => {
     >
       <HeaderItem text="current block">
         <HeaderData>
-          {Number(currentBlockNumber)?.toLocaleString("en-GB")}
+          {toCommaSeparated(currentBlockNumber)}
         </HeaderData>
       </HeaderItem>
 

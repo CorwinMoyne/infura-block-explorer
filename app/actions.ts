@@ -1,5 +1,6 @@
 "use server";
 
+import { Block } from "@/types";
 import { Web3 } from "web3";
 
 const provider = `https://${process.env.NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`;
@@ -31,4 +32,23 @@ export async function getGasPrice() {
   } catch (error) {
     console.error(error);
   }
+}
+
+/**
+ * Returns a list of blocks limited in length
+ * 
+ * @returns Promise<Block[]>
+ */
+export async function getBlocks() {
+  const latestBlock = await web3.eth.getBlockNumber();
+  const blocks: Block[] = [];
+
+  for (var i = 0; i < 1; i++) {
+    const block = (await web3.eth.getBlock(
+      Number(latestBlock) - i
+    )) as unknown as Block;
+    blocks.push(block);
+  }
+
+  return blocks;
 }
