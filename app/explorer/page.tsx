@@ -7,7 +7,7 @@ const Explorer = async () => {
 
   return (
     <section>
-      <div className="p-8">
+      <div>
         <Header currentBlockNumber={currentBlockNumber} averageGasPrice={averageGasPrice} />
       </div>
     </section>

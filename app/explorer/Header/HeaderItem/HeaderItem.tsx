@@ -14,7 +14,7 @@ interface HeaderItemProps {
  */
 const HeaderItem = ({ text, children }: HeaderItemProps) => {
   return (
-    <div className="grid gap-1">
+    <div className="grid gap-2">
       <div className="uppercase text-sm">{text}</div>
       <div className="text-white text-4xl">{children}</div>
     </div>

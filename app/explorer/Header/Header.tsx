@@ -8,14 +8,17 @@ interface HeaderProps {
 
 /**
  * The explorer page header
- * 
- * @param currentBlockNumber The current block number 
+ *
+ * @param currentBlockNumber The current block number
  * @param averageGasPrice    The average gas price
  * @returns JSX.Element
  */
 const Header = ({ currentBlockNumber, averageGasPrice }: HeaderProps) => {
   return (
-    <section className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14" data-testid="explorer-header">
+    <section
+      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14 bg-primary-dark px-10 py-14 w-full"
+      data-testid="explorer-header"
+    >
       <HeaderItem text="current block">
         <HeaderData>
           {Number(currentBlockNumber)?.toLocaleString("en-GB")}

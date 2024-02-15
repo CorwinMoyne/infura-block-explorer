@@ -1,7 +1,7 @@
 
 const Projects = () => {
   return (
-    <section className="p-8">
+    <section className="p-10">
       Projects
     </section>
   )
