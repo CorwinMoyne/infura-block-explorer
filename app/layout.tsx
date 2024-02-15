@@ -19,7 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${font.className} bg-primary text-kimberly-500 flex`}>
         <Navbar />
-        <main className="flex-g">{children}</main>
+        <main className="flex-grow">{children}</main>
       </body>
     </html>
   );
