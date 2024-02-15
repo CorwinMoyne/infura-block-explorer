@@ -1,10 +1,17 @@
+import { getGasPrice, getLatestBlock } from "../actions";
+import { Header } from "./Header";
 
-const Explorer = () => {
+const Explorer = async () => {
+
+  const [currentBlockNumber, averageGasPrice] = await Promise.all([getLatestBlock(), getGasPrice()]);  
+
   return (
-    <section className="p-8">
-      Explorer
+    <section>
+      <div className="p-8">
+        <Header currentBlockNumber={currentBlockNumber} averageGasPrice={averageGasPrice} />
+      </div>
     </section>
-  )
-}
+  );
+};
 
-export default Explorer
+export default Explorer;
