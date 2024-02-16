@@ -31,7 +31,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
   >(null);
 
   // Debounce the current element being set to prevent unnecessary server calls
-  const debouncedElement = useDebounce(currentElement, 200);
+  const debouncedElement = useDebounce(currentElement, 100);
 
   useEffect(() => {
     // Get the transaction data when the element is active
