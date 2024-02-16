@@ -36,7 +36,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
   }
 
   return (
-    <section className="px-10 py-14 grid gap-5">
+    <section className="px-10 py-14 grid gap-5 max-h-[900px] overflow-x-auto">
       <div
         className="blocks grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-14 w-full place-items-center max-w-7xl"
         data-testid="explorer-blocks"
