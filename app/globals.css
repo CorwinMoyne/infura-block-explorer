@@ -18,5 +18,13 @@
   transform: rotate(45deg);
 }
 
+.blocks:hover > .grid-block {
+  opacity: 0.2;
+  transition: opacity 0.75s;
+}
+
+.blocks:hover > .grid-block:hover {
+  opacity: 1.0;
+}
 
 

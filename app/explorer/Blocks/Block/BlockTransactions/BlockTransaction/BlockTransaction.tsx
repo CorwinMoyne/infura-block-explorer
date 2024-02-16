@@ -15,8 +15,8 @@ interface BlockTransactionProps {
 
 /**
  * The transaction component
- * 
- * @param hash The transaction hash 
+ *
+ * @param hash The transaction hash
  * @returns JSX.Element
  */
 const BlockTransaction = ({ hash }: BlockTransactionProps) => {
@@ -31,7 +31,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
   >(null);
 
   // Debounce the current element being set to prevent unnecessary server calls
-  const debouncedElement = useDebounce(currentElement, 300);
+  const debouncedElement = useDebounce(currentElement, 200);
 
   useEffect(() => {
     // Get the transaction data when the element is active
@@ -46,7 +46,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
 
   /**
    * Handles the mouse entering the transaction element
-   * 
+   *
    * @param event Mouse event
    */
   async function handleMouseEnter(event: React.MouseEvent) {
@@ -69,7 +69,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
         className="w-4 h-4 bg-kimberly-400"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-      ></div>
+      />
       {!!debouncedElement && transactionData && (
         <Popover referenceElement={referenceElement}>
           <div className="bg-white text-sm gap-2 p-4 grid">
@@ -95,9 +95,17 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
               <div className="text-gray-500">VALUE</div>
               <div className="flex space-x-2 text-kimberly-900 font-semibold">
                 <div>{transactionData.ethValue} ETH</div>
-                <div>{currencyFormatter.format(Number(transactionData.dollarValue))}</div>
+                <div>
+                  {currencyFormatter.format(
+                    Number(transactionData.dollarValue)
+                  )}
+                </div>
                 <div>@</div>
-                <div>{currencyFormatter.format(Number(transactionData.exchangeRate))}</div>
+                <div>
+                  {currencyFormatter.format(
+                    Number(transactionData.exchangeRate)
+                  )}
+                </div>
               </div>
             </div>
           </div>

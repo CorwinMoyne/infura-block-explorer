@@ -14,7 +14,7 @@ interface BlockProps {
  */
 const Block = ({ block }: BlockProps) => {
   return (
-    <div className="text-kimberly-100 bg-kimberly-700 grid gap-4 shadow-md">
+    <div className="grid-block text-kimberly-100 bg-kimberly-700 grid gap-4 shadow-md">
       <BlockHeader
         blockNumber={block.number}
         noOfTransactions={block.transactions.length}

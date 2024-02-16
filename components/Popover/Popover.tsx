@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { usePopper } from "react-popper";
 
 interface PopoverProps {
@@ -25,17 +26,19 @@ const Popover = ({ referenceElement, children }: PopoverProps) => {
   });
 
   return (
-    <div
-      id="popover"
-      className="relative"
-      ref={setPopperElement}
-      style={styles.popper}
-      {...attributes.popper}
-      role="tooltip"
-    >
-      {children}
-      <div id="arrow"/>
-    </div>
+    <>
+      {createPortal(
+        <div
+          ref={setPopperElement}
+          style={styles.popper}
+          {...attributes.popper}
+        >
+          {children}
+          <div id="arrow"/>
+        </div>,
+        document.body
+      )}
+    </>
   );
 };
 
