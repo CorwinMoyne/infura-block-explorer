@@ -1,9 +1,9 @@
-import { Block } from "@/types";
+import { IBlock } from "@/types";
 import { BlockHeader } from "./BlockHeader";
 import { BlockTransactions } from "./BlockTransactions";
 
 interface BlockProps {
-  block: Block;
+  block: IBlock;
 }
 
 /**
@@ -20,7 +20,7 @@ const Block = ({ block }: BlockProps) => {
         noOfTransactions={block.transactions.length}
         timestamp={block.timestamp}
       />
-      <BlockTransactions transactions={block.transactions.splice(0, 100)} />
+      <BlockTransactions transactions={block.transactions.slice().splice(0, 100)} />
     </div>
   );
 };

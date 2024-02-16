@@ -1,6 +1,7 @@
 "use server";
 
-import { Block, Transaction } from "@/types";
+import { INITIAL_NUMBER_OF_BLOCKS } from "@/constants";
+import { IBlock, ITransaction } from "@/types";
 import { Web3 } from "web3";
 
 const provider = `https://${process.env.NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`;
@@ -39,23 +40,34 @@ export async function getGasPrice() {
  *
  * @returns Promise<Block[]>
  */
-export async function getBlocks() {
-  const latestBlock = await web3.eth.getBlockNumber();
-  const blocks: Block[] = [];
+export async function getBlocks(last?: string) {
+  const latestBlock = last ? Number(last) - 1 : await web3.eth.getBlockNumber();
+  const blocks: IBlock[] = [];
 
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < INITIAL_NUMBER_OF_BLOCKS; i++) {
     const block = (await web3.eth.getBlock(
       Number(latestBlock) - i
-    )) as unknown as Block;
+    )) as unknown as IBlock;    
     blocks.push(block);
   }
-
-  return blocks;
+  
+  return blocks.map(block => {
+    return {
+      ...block,
+      number: block.number.toString()
+    }
+  });
 }
 
+/**
+ * Returns the transaction data
+ * 
+ * @param hash The transaction hash
+ * @returns ITransaction | undefined
+ */
 export async function getTransactionData(
   hash: string | undefined
-): Promise<Transaction | undefined> {
+): Promise<ITransaction | undefined> {
   if (!hash) {
     return;
   }

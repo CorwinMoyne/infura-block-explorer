@@ -1,4 +1,4 @@
-export interface Block {
+export interface IBlock {
   baseFeePerGas: bigint;
   difficulty: bigint;
   extraData: string;
@@ -9,7 +9,7 @@ export interface Block {
   miner: string;
   mixHash: string;
   nonce: bigint;
-  number: bigint;
+  number: string;
   parentHash: string;
   receiptsRoot: string;
   sha3Uncles: string;
@@ -22,7 +22,7 @@ export interface Block {
   uncles: any[];
 }
 
-export interface Transaction {
+export interface ITransaction {
   from: string;
   to: string;
   ethValue: string;

@@ -3,7 +3,7 @@
 import { getTransactionData } from "@/app/actions";
 import Popover from "@/components/Popover/Popover";
 import { useDebounce } from "@/hooks/useDebouce";
-import { Transaction } from "@/types";
+import { ITransaction } from "@/types";
 import { currencyFormatter } from "@/utils/currencyFormatter/currencyFormatter";
 import { useEffect, useState } from "react";
 // @ts-ignore
@@ -22,7 +22,7 @@ interface BlockTransactionProps {
 const BlockTransaction = ({ hash }: BlockTransactionProps) => {
   const [currentHash, setCurrentHash] = useState<string | undefined>("");
   const [transactionData, setTransactionData] = useState<
-    Transaction | undefined
+    ITransaction | undefined
   >();
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>(null);

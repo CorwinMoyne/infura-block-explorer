@@ -1,6 +1,9 @@
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import { Blocks, BlocksLoadingSkeleton } from "./Blocks";
+import { BlocksLoadingSkeleton } from "./Blocks";
 import { Header, HeaderLoadingSkeleton } from "./Header";
+
+const NoSSRBlocks = dynamic(() => import("./Blocks/Blocks"), { ssr: false });
 
 const Explorer = () => {
   return (
@@ -10,7 +13,7 @@ const Explorer = () => {
       </Suspense>
 
       <Suspense fallback={<BlocksLoadingSkeleton />}>
-        <Blocks />
+        <NoSSRBlocks />
       </Suspense>
     </section>
   );
