@@ -73,7 +73,7 @@ export async function getTransactionData(
   }
   const transaction = await web3.eth.getTransaction(hash);
   const ethValue = web3.utils.fromWei(transaction.value, "ether");
-  const { from, to } = transaction;
+  const { from, to } = transaction;  
 
   const response = await fetch(
     `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${process.env.CRYPTO_COMPARE_API_KEY}`
@@ -85,7 +85,7 @@ export async function getTransactionData(
   return {
     from,
     to: to as string,
-    ethValue: Math.round(Number(ethValue)).toFixed(2),
+    ethValue: Number(ethValue).toFixed(3),
     dollarValue,
     exchangeRate: USD,
   };
