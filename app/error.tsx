@@ -15,12 +15,13 @@ export default function Error({
   }, [error]);
 
   return (
-    <div>
-      <h2>Something went wrong!</h2>
+    <div className="max-w-lg mx-auto p-24 text-white">
+      <h2 className="mb-4">Something went wrong!</h2>
       <button
+        className="underline"
         onClick={
           // Attempt to recover by trying to re-render the segment
-          () => reset()
+          () => window.location.reload()
         }
       >
         Try again
