@@ -8,12 +8,6 @@ it("should render a logo", () => {
   expect(screen.getByTestId("nav-logo")).toBeInTheDocument();
 });
 
-it("should render 3 nav links", () => {
-  render(<Navbar />)
-
-  expect(screen.getAllByTestId("nav-link")).toHaveLength(3);
-});
-
 it("should render a dashboard link", () => {
   render(<Navbar />)
 
@@ -30,4 +24,16 @@ it("should render an explorer link", () => {
   render(<Navbar />)
 
   expect(screen.getAllByTestId("nav-link")[2]).toHaveAttribute('href', Route.Explorer);
+});
+
+it("should render a settings link", () => {
+  render(<Navbar />)
+
+  expect(screen.getAllByTestId("nav-link")[3]).toHaveAttribute('href', Route.Settings);
+});
+
+it("should render a logout button", () => {
+  render(<Navbar />)
+
+  expect(screen.getByTestId("power-btn")).toBeInTheDocument();
 });
