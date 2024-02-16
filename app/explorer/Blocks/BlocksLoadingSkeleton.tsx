@@ -35,7 +35,7 @@ const BlocksLoadingSkeleton = () => {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-10 gap-[0.6rem] px-3 pb-4 min-h-[265px] content-start">
+            <div className="grid grid-cols-10 gap-[0.6rem] px-3 pb-4 min-h-[272px] content-start">
               {Array.from({ length: 25 }).map((_, index) => (
                 <div key={index} className="w-4 h-4 bg-gray-300 animate-pulse" />
               ))}

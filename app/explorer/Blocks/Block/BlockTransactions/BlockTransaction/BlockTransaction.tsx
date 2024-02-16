@@ -69,6 +69,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
         className="w-4 h-4 bg-kimberly-400"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        role="tooltip"
       />
       {!!debouncedElement && transactionData && (
         <Popover referenceElement={referenceElement}>

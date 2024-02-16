@@ -22,7 +22,7 @@ const BlockHeader = ({
   return (
     <div className="border-b-[1px] border-kimberly-400" suppressHydrationWarning={true}>
       <div className="py-4 px-3 w-full flex justify-between">
-        <div className="grid gap-1">
+        <div>
           <div>#{toCommaSeparated(blockNumber.toString())}</div>
           <div
             className="flex space-x-3 text-sm"
