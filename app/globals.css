@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Popover arrow */
 #arrow {
   visibility: hidden;
 }
@@ -18,9 +19,10 @@
   transform: rotate(45deg);
 }
 
+/* Blocks opacity */
 .blocks:hover > .grid-block {
-  opacity: 0.2;
-  transition: opacity 0.75s;
+  opacity: 0.4;
+  transition: opacity 0.5s;
 }
 
 .blocks:hover > .grid-block:hover {
