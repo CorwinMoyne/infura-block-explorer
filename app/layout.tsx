@@ -1,4 +1,5 @@
 import { Navbar } from "@/components";
+import StoreProvider from "@/providers/storeProvider";
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
@@ -18,8 +19,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${font.className} bg-primary text-kimberly-500 flex`}>
-        <Navbar />
-        <main className="flex-grow">{children}</main>
+        <StoreProvider>
+          <Navbar />
+          <main className="flex-grow">{children}</main>
+        </StoreProvider>
       </body>
     </html>
   );

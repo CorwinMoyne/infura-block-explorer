@@ -1,6 +1,13 @@
 "use client";
 
 import { getBlocks, getLatestBlocks } from "@/app/actions";
+import {
+  pushBlocks,
+  selectBlocks,
+  setBlocks,
+  unshiftBlocks,
+} from "@/lib/features/blockSlice";
+import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { IBlock } from "@/types";
 import { useHover } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
@@ -17,14 +24,22 @@ interface BlocksGridProps {
  * @returns JSX.Element
  */
 const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
-  const [blocks, setBlocks] = useState(initialBlocks);
+  const dispatch = useAppDispatch();
+  
+  const blocks = useAppSelector(selectBlocks);
+
   const [isLoading, setIsLoading] = useState(false);
   const [gridWidth, setGridWidth] = useState<number | undefined>();
+
 
   const [hoverRef, hovering] = useHover();
 
   const intervalId = useRef<NodeJS.Timeout | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    dispatch(setBlocks(initialBlocks));
+  }, [initialBlocks]);
 
   /**
    * Updates the blocks by adding the latest ones
@@ -32,7 +47,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
   async function updateBlocks() {
     const newestBlockNumber = blocks[0].number;
     const updatedBlocks = await getLatestBlocks(newestBlockNumber);
-    setBlocks((prev) => updatedBlocks.concat(prev));
+    dispatch(unshiftBlocks(updatedBlocks));
   }
 
   useEffect(() => {
@@ -53,7 +68,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
         clearInterval(intervalId.current);
       }
     };
-  }, [hovering]);
+  }, [hoverRef, intervalId.current]);
 
   /**
    * Loads the next 12 blocks
@@ -63,7 +78,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
       setIsLoading(true);
       const lastBlock = blocks[blocks.length - 1];
       const newBlocks = await getBlocks(lastBlock.number);
-      setBlocks((prev) => prev.concat(newBlocks));
+      dispatch(pushBlocks(newBlocks));
     } catch (error) {
       console.error(error);
     } finally {
