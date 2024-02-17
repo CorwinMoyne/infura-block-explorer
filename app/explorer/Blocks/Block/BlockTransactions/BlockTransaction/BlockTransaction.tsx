@@ -29,16 +29,46 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
   const [currentElement, setCurrentElement] = useState<
     (EventTarget & Element) | null
   >(null);
+  const [cachedTransactions, setCachedTransactions] = useState<ITransaction[]>(
+    []
+  );
+
+  /**
+   * Returns true if the transaction is in the cache
+   * 
+   * @returns boolean
+   */
+  function isInCache() {
+    return (
+      cachedTransactions.find(
+        (transaction) => transaction.hash === currentHash
+      ) !== undefined
+    );
+  }
 
   // Debounce the current element being set to prevent unnecessary server calls
-  const debouncedElement = useDebounce(currentElement, 100);
+  const debouncedElement = useDebounce(currentElement, 500);
 
   useEffect(() => {
     // Get the transaction data when the element is active
     async function getTransaction() {
       if (debouncedElement) {
-        const transactionData = await getTransactionData(currentHash);
-        setTransactionData(transactionData);
+        // Search cache for transaction
+        const foundTransaction = cachedTransactions.find(
+          (transaction) => transaction.hash === currentHash
+        );
+        if (foundTransaction) {
+          setTransactionData(foundTransaction);
+        } else {
+          const transactionData = await getTransactionData(currentHash);
+          if (transactionData) {
+            setTransactionData(transactionData);
+            // Add transaction to cache
+            const copy = [...cachedTransactions];
+            copy.push(transactionData);
+            setCachedTransactions(copy);
+          }
+        }
       }
     }
     getTransaction();
@@ -66,7 +96,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
     <>
       <div
         ref={setReferenceElement}
-        className="w-4 h-4 bg-kimberly-400"
+        className={`w-4 h-4 ${isInCache() ? "bg-kimberly-200" : "bg-kimberly-400"}`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         role="tooltip"

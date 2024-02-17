@@ -23,6 +23,7 @@ export interface IBlock {
 }
 
 export interface ITransaction {
+  hash: string;
   from: string;
   to: string;
   ethValue: string;

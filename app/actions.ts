@@ -47,33 +47,34 @@ export async function getBlocks(last?: string) {
   for (var i = 0; i < INITIAL_NUMBER_OF_BLOCKS; i++) {
     const block = (await web3.eth.getBlock(
       Number(latestBlock) - i
-    )) as unknown as IBlock;    
+    )) as unknown as IBlock;
     blocks.push(block);
   }
-  
-  return blocks.map(block => {
+
+  return blocks.map((block) => {
     return {
       ...block,
-      number: block.number.toString()
-    }
+      number: block.number.toString(),
+    };
   });
 }
 
 /**
  * Returns the transaction data
- * 
- * @param hash The transaction hash
+ *
+ * @param transactionHash The transaction hash
  * @returns ITransaction | undefined
  */
 export async function getTransactionData(
-  hash: string | undefined
+  transactionHash: string | undefined
 ): Promise<ITransaction | undefined> {
-  if (!hash) {
+  if (!transactionHash) {
     return;
   }
-  const transaction = await web3.eth.getTransaction(hash);
+
+  const transaction = await web3.eth.getTransaction(transactionHash);
   const ethValue = web3.utils.fromWei(transaction.value, "ether");
-  const { from, to } = transaction;  
+  const { hash, from, to } = transaction;
 
   const response = await fetch(
     `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${process.env.CRYPTO_COMPARE_API_KEY}`
@@ -83,6 +84,7 @@ export async function getTransactionData(
   const dollarValue = (USD * Number(ethValue)).toFixed(2);
 
   return {
+    hash,
     from,
     to: to as string,
     ethValue: Number(ethValue).toFixed(3),
