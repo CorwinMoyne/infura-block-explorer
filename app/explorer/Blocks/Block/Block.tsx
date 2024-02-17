@@ -18,14 +18,14 @@ const Block = ({ block }: BlockProps) => {
     <div className="grid-block text-kimberly-100 bg-kimberly-700 shadow-md min-h-[390px]">
       <BlockHeader
         blockNumber={block.number}
-        noOfTransactions={block.transactions.length}
+        noOfTransactions={block.transactions?.length}
         timestamp={block.timestamp}
       />
       <BlockTransactions
-        transactions={block.transactions.slice().splice(0, 100)}
+        transactions={block.transactions?.slice().splice(0, 100)}
       />
-      {block.transactions.length > 100 && (
-        <BlockFooter noOfTransactions={block.transactions.length - 100} />
+      {block.transactions?.length > 100 && (
+        <BlockFooter noOfTransactions={block.transactions?.length - 100} />
       )}
     </div>
   );

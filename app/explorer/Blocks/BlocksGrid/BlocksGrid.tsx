@@ -1,7 +1,8 @@
 "use client";
 
-import { getBlocks } from "@/app/actions";
+import { getBlocks, getLatestBlocks } from "@/app/actions";
 import { IBlock } from "@/types";
+import { useHover } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
 import { Block } from "../Block";
 
@@ -20,22 +21,39 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [gridWidth, setGridWidth] = useState<number | undefined>();
 
+  const [hoverRef, hovering] = useHover();
+
+  const intervalId = useRef<NodeJS.Timeout | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
 
   /**
-   * Set the grid width so the load more btn is always centered under it
+   * Updates the blocks by adding the latest ones
    */
-  function getGridWidth() {
-    setGridWidth(ref.current?.offsetWidth);
+  async function updateBlocks() {
+    const newestBlockNumber = blocks[0].number;
+    const updatedBlocks = await getLatestBlocks(newestBlockNumber);
+    setBlocks((prev) => updatedBlocks.concat(prev));
   }
 
   useEffect(() => {
-    getGridWidth();
+    // If the user is not hovering over a block, update the blocks every 10 secs
+    if (!hovering) {
+      intervalId.current = setInterval(() => {
+        updateBlocks();
+      }, 10000);
+    } else {
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+      }
+      intervalId.current = null;
+    }
 
-    window.addEventListener("resize", getGridWidth);
-
-    return () => window.removeEventListener("resize", getGridWidth);
-  }, []);
+    return () => {
+      if (intervalId.current) {
+        clearInterval(intervalId.current);
+      }
+    };
+  }, [hovering]);
 
   /**
    * Loads the next 12 blocks
@@ -53,8 +71,26 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
     }
   }
 
+  /**
+   * Set the grid width so the load more btn is always centered under it
+   */
+  function getGridWidth() {
+    setGridWidth(ref.current?.offsetWidth);
+  }
+
+  useEffect(() => {
+    getGridWidth();
+
+    window.addEventListener("resize", getGridWidth);
+
+    return () => window.removeEventListener("resize", getGridWidth);
+  }, []);
+
   return (
-    <section className="px-10 py-14 grid gap-5 max-h-[900px] overflow-x-auto">
+    <section
+      ref={hoverRef}
+      className="px-10 py-14 grid gap-5 max-h-[900px] overflow-x-auto"
+    >
       <div
         ref={ref}
         className="blocks grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-14 w-full place-items-center max-w-7xl"

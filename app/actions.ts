@@ -53,8 +53,36 @@ export async function getBlocks(last?: string) {
 
   return blocks.map((block) => {
     return {
-      ...block,
+      hash: block.hash,
       number: block.number.toString(),
+      transactions: block.transactions,
+      timestamp: block.timestamp.toString(),
+    };
+  });
+}
+
+/**
+ * Returns the latest blocks not already returned
+ *
+ * @returns Promise<Block[]>
+ */
+export async function getLatestBlocks(newestBlockNumber: string) {
+  const latestBlock = await web3.eth.getBlockNumber();
+  const blocks: IBlock[] = [];
+
+  for (var i = 0; i < Number(latestBlock) - Number(newestBlockNumber); i++) {
+    const block = (await web3.eth.getBlock(
+      Number(latestBlock) - i
+    )) as unknown as IBlock;
+    blocks.push(block);
+  }
+
+  return blocks.map((block) => {
+    return {
+      hash: block.hash,
+      number: block.number.toString(),
+      transactions: block.transactions,
+      timestamp: block.timestamp.toString(),
     };
   });
 }

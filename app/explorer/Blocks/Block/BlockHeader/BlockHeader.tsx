@@ -3,7 +3,7 @@ import { durationFromDate, toCommaSeparated } from "@/utils";
 interface BlockHeaderProps {
   blockNumber: string;
   noOfTransactions: number;
-  timestamp: bigint;
+  timestamp: string;
 }
 
 /**
