@@ -32,6 +32,7 @@ const Popover = ({ referenceElement, children }: PopoverProps) => {
           ref={setPopperElement}
           style={styles.popper}
           {...attributes.popper}
+          data-testid="popover"
         >
           {children}
           <div id="arrow"/>

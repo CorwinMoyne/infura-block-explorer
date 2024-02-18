@@ -2,10 +2,10 @@
 
 import { getTransactionData } from "@/app/actions";
 import Popover from "@/components/Popover/Popover";
-import { useDebounce } from "@/hooks/useDebouce";
 import { ITransaction } from "@/types";
 import { currencyFormatter } from "@/utils/currencyFormatter/currencyFormatter";
 import { useEffect, useState } from "react";
+import { useDebounce } from "../../../../../../hooks/useDebounce";
 // @ts-ignore
 import MiddleEllipsis from "react-middle-ellipsis";
 
@@ -33,9 +33,12 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
     []
   );
 
+  // Debounce the current element being set to prevent unnecessary server calls
+  const debouncedElement = useDebounce(currentElement, 500);
+
   /**
    * Returns true if the transaction is in the cache
-   * 
+   *
    * @returns boolean
    */
   function isInCache() {
@@ -45,9 +48,6 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
       ) !== undefined
     );
   }
-
-  // Debounce the current element being set to prevent unnecessary server calls
-  const debouncedElement = useDebounce(currentElement, 500);
 
   useEffect(() => {
     // Get the transaction data when the element is active
@@ -96,10 +96,11 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
     <>
       <div
         ref={setReferenceElement}
-        className={`w-4 h-4 ${isInCache() ? "bg-kimberly-200" : "bg-kimberly-400"}`}
+        className={`w-4 h-4 ${
+          isInCache() ? "bg-kimberly-200" : "bg-kimberly-400"
+        }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        role="tooltip"
         data-testid="block-transaction"
       />
       {!!debouncedElement && transactionData && (
