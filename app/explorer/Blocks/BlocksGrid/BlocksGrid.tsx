@@ -98,18 +98,20 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
             <Block key={block.number} block={block} />
           ))}
         </div>
-        <div className="flex justify-center">
-          {isLoading ? (
-            <div className="text-white">Loading more blocks...</div>
-          ) : (
-            <button
-              className="shadow-md rounded-full px-4 py-2 bg-kimberly-700 hover:bg-kimberley-900 text-kimberly-200 uppercase"
-              onClick={loadMoreBlocks}
-            >
-              Load More
-            </button>
-          )}
-        </div>
+        {blocks.length > 0 && (
+          <div className="flex justify-center pb-14">
+            {isLoading ? (
+              <div className="text-white">Loading more blocks...</div>
+            ) : (
+              <button
+                className="shadow-md rounded-full px-4 py-2 bg-kimberly-700 hover:bg-kimberley-900 text-kimberly-200 uppercase"
+                onClick={loadMoreBlocks}
+              >
+                Load More
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </section>
   );
