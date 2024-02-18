@@ -24,15 +24,11 @@ interface BlocksGridProps {
  */
 const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
   const dispatch = useAppDispatch();
-  
+
   const blocks = useAppSelector(selectBlocks);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [gridWidth, setGridWidth] = useState<number | undefined>();
-
-
-  // const [hoverRef, hovering] = useHover();
 
   const intervalId = useRef<NodeJS.Timeout | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -86,47 +82,34 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
     }
   }
 
-  /**
-   * Set the grid width so the load more btn is always centered under it
-   */
-  function getGridWidth() {
-    setGridWidth(ref.current?.offsetWidth);
-  }
-
-  useEffect(() => {
-    getGridWidth();
-
-    window.addEventListener("resize", getGridWidth);
-
-    return () => window.removeEventListener("resize", getGridWidth);
-  }, []);
-
   return (
     <section
-      className="px-10 py-14 grid gap-5 max-h-[900px] overflow-x-auto"
+      className="grid gap-5 max-h-[900px] overflow-x-auto w-full"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div
-        ref={ref}
-        className="blocks grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-14 w-full place-items-center max-w-7xl"
-        data-testid="explorer-blocks"
-      >
-        {blocks.map((block) => (
-          <Block key={block.number} block={block} />
-        ))}
-      </div>
-      <div style={{ width: `${gridWidth}px` }} className="flex justify-center">
-        {isLoading ? (
-          <div className="text-white">Loading more blocks...</div>
-        ) : (
-          <button
-            className="shadow-md rounded-full px-4 py-2 bg-kimberly-700 hover:bg-kimberley-900 text-kimberly-200 uppercase"
-            onClick={loadMoreBlocks}
-          >
-            Load More
-          </button>
-        )}
+      <div className="w-fit">
+        <div
+          ref={ref}
+          className="blocks grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-14 place-items-center max-w-7xl px-10 py-14"
+          data-testid="explorer-blocks"
+        >
+          {blocks.map((block) => (
+            <Block key={block.number} block={block} />
+          ))}
+        </div>
+        <div className="flex justify-center">
+          {isLoading ? (
+            <div className="text-white">Loading more blocks...</div>
+          ) : (
+            <button
+              className="shadow-md rounded-full px-4 py-2 bg-kimberly-700 hover:bg-kimberley-900 text-kimberly-200 uppercase"
+              onClick={loadMoreBlocks}
+            >
+              Load More
+            </button>
+          )}
+        </div>
       </div>
     </section>
   );
