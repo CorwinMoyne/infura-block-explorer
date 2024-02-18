@@ -13,7 +13,7 @@ const Header = async () => {
     getLatestBlock(),
     getGasPrice(),
   ]);
-  // sm:grid-cols-2 lg:grid-cols-4 lg:gap-14 px-10 py-14 w-full
+  
   return (
     <section className="bg-primary-dark w-full" data-testid="explorer-header">
       <div className="max-w-7xl px-10 py-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14">
