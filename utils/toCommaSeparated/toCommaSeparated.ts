@@ -3,9 +3,6 @@
  * 
  * @param value The value to comma separate
  */
-export function toCommaSeparated(value: string | undefined) {
-  if(!value) {
-    return "";
-  }
+export function toCommaSeparated(value: string) {
   return Number(value).toLocaleString("en-GB");
 }
