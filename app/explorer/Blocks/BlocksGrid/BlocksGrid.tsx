@@ -9,7 +9,6 @@ import {
 } from "@/lib/features/blockSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/store";
 import { IBlock } from "@/types";
-import { useHover } from "@uidotdev/usehooks";
 import { useEffect, useRef, useState } from "react";
 import { Block } from "../Block";
 
@@ -29,10 +28,11 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
   const blocks = useAppSelector(selectBlocks);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
   const [gridWidth, setGridWidth] = useState<number | undefined>();
 
 
-  const [hoverRef, hovering] = useHover();
+  // const [hoverRef, hovering] = useHover();
 
   const intervalId = useRef<NodeJS.Timeout | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -52,7 +52,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
 
   useEffect(() => {
     // If the user is not hovering over a block, update the blocks every 10 secs
-    if (!hovering) {
+    if (!isHovering) {
       intervalId.current = setInterval(() => {
         updateBlocks();
       }, 10000);
@@ -68,7 +68,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
         clearInterval(intervalId.current);
       }
     };
-  }, [hoverRef, intervalId.current]);
+  }, [isHovering, intervalId.current]);
 
   /**
    * Loads the next 12 blocks
@@ -103,8 +103,9 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
 
   return (
     <section
-      ref={hoverRef}
       className="px-10 py-14 grid gap-5 max-h-[900px] overflow-x-auto"
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
       <div
         ref={ref}
