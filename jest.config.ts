@@ -35,7 +35,9 @@ const config: Config = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     "<rootDir>/constants.ts",
-    "<rootDir>/utils/wait.ts"
+    "<rootDir>/utils/wait.ts",
+    "<rootDir>/app/explorer/Header/HeaderLoadingSkeleton",
+    "<rootDir>/app/explorer/Blocks/BlockLoadingSkeleton",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
