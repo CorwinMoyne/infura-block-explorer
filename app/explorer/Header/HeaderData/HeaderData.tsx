@@ -20,6 +20,7 @@ const HeaderData = ({ children, size = "large" }: HeaderDataProps) => {
           ? "text-4xl xl:text-5xl"
           : "text-sm flex items-end leading-6"
       }`}
+      data-testid="header-data"
     >
       {children}
     </div>
