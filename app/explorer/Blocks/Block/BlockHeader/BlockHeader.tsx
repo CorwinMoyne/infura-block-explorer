@@ -20,7 +20,7 @@ const BlockHeader = ({
   timestamp,
 }: BlockHeaderProps) => {
   return (
-    <div className="border-b-[1px] border-kimberly-400" suppressHydrationWarning={true}>
+    <div className="border-b-[1px] border-kimberly-400" suppressHydrationWarning={true} data-testid="block-header">
       <div className="py-4 px-3 w-full flex justify-between">
         <div>
           <div>#{toCommaSeparated(blockNumber.toString())}</div>
