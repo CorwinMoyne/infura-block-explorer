@@ -1,10 +1,12 @@
 import { mockBlocks } from "@/mocks/blocks";
 import StoreProvider from "@/providers/storeProvider";
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { BlocksGrid } from ".";
+import { getBlocks, getLatestBlocks } from "../../../actions";
 
 jest.mock("../../../actions", () => ({
   getBlocks: jest.fn().mockReturnValue(mockBlocks),
+  getLatestBlocks: jest.fn().mockReturnValue(mockBlocks),
 }));
 
 it("should render a grid of blocks", () => {
@@ -24,5 +26,41 @@ it("should render a load more btn", () => {
     </StoreProvider>
   );
 
-  expect(screen.getByRole('button')).toHaveTextContent('Load More');
+  expect(screen.getByRole("button")).toHaveTextContent("Load More");
+});
+
+it("should load more blocks when the load more btn is clicked", async () => {
+  render(
+    <StoreProvider>
+      <BlocksGrid initialBlocks={mockBlocks} />
+    </StoreProvider>
+  );
+
+  await waitFor(async () => {
+    await fireEvent.click(screen.getByRole("button"));
+  });
+
+  expect(getBlocks).toHaveBeenCalledWith(mockBlocks[1].number);
+
+  expect(screen.getAllByTestId("block")).toHaveLength(mockBlocks.length * 2);
+});
+
+it("should poll for more blocks every 10 seconds", async () => {
+  jest.useFakeTimers();
+
+  render(
+    <StoreProvider>
+      <BlocksGrid initialBlocks={mockBlocks} />
+    </StoreProvider>
+  );
+
+  jest.advanceTimersByTime(10000);
+
+  expect(getLatestBlocks).toHaveBeenCalledWith(mockBlocks[0].number);
+
+  await waitFor(() => {
+    expect(screen.getAllByTestId("block")).toHaveLength(
+      mockBlocks.length * 2
+    );
+  });
 });
