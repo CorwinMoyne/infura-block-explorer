@@ -2,7 +2,7 @@ import { INITIAL_NUMBER_OF_BLOCKS } from "@/constants";
 
 const BlocksLoadingSkeleton = () => {
   return (
-    <section className="grid gap-5">
+    <section className="grid gap-5 mt-[456px] sm:mt-[263px] lg:mt-[180px]">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 lg:gap-14 w-full place-items-center max-w-7xl px-10 py-14 ">
         {Array.from({ length: INITIAL_NUMBER_OF_BLOCKS }).map((_, index) => (
           <div

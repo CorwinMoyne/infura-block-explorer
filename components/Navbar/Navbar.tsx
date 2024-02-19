@@ -20,7 +20,7 @@ const Navbar = () => {
 
   return (
     <nav
-      className="bg-primary-light min-h-screen w-12 text-white flex flex-col justify-between items-center sm:w-24"
+      className="bg-primary-light min-h-screen w-12 text-white flex flex-col justify-between items-center sm:w-24 fixed"
       aria-label="Main"
     >
       <div className="w-full">

@@ -84,7 +84,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
 
   return (
     <section
-      className="grid gap-5 max-h-[900px] overflow-x-auto w-full"
+      className="grid gap-5 w-full mt-[456px] sm:mt-[263px] lg:mt-[180px]"
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >

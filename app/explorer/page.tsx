@@ -4,7 +4,7 @@ import { Header, HeaderLoadingSkeleton } from "./Header";
 
 const Explorer = () => {
   return (
-    <section>
+    <section className="ml-12 sm:ml-24">
       <Suspense fallback={<HeaderLoadingSkeleton />}>
         <Header />
       </Suspense>

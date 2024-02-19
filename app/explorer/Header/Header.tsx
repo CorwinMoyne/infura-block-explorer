@@ -15,7 +15,7 @@ const Header = async () => {
   ]);
   
   return (
-    <section className="bg-primary-dark w-full" data-testid="explorer-header">
+    <section className="bg-primary-dark w-full fixed top-0 z-10 h-[456px] sm:h-[263px] lg:h-[180px]" data-testid="explorer-header">
       <div className="max-w-7xl px-10 py-14 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-14">
         <HeaderItem text="current block">
           <HeaderData>{currentBlockNumber ? toCommaSeparated(currentBlockNumber) : ''}</HeaderData>
