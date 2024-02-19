@@ -8,7 +8,7 @@ interface BlockTransactionsProps {
 /**
  * The transaction grid
  * 
- * @param The block transactions 
+ * @param transactions The block transactions 
  * @returns JSX.Element
  */
 const BlockTransactions = ({ transactions }: BlockTransactionsProps) => {

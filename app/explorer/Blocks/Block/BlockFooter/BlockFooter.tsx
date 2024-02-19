@@ -4,6 +4,13 @@ interface BlockFooterProps {
   noOfTransactions: number;
 }
 
+
+/**
+ * The block footer
+ * 
+ * @param noOfTransactions The number of extra transactions in the block
+ * @returns 
+ */
 const BlockFooter = ({ noOfTransactions }: BlockFooterProps) => {
   return (
     <section className="border-t-[1px] border-kimberly-400" data-testid="block-footer">
