@@ -21,7 +21,7 @@ export default function RootLayout({
       <body className={`${font.className} bg-primary text-kimberly-500 flex`}>
         <StoreProvider>
           <Navbar />
-          <main className="flex-grow">{children}</main>
+          <main className="flex-grow ml-12 sm:ml-24">{children}</main>
         </StoreProvider>
       </body>
     </html>
