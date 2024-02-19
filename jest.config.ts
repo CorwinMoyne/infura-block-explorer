@@ -38,6 +38,7 @@ const config: Config = {
     "<rootDir>/utils/wait.ts",
     "<rootDir>/app/explorer/Header/HeaderLoadingSkeleton",
     "<rootDir>/app/explorer/Blocks/BlocksLoadingSkeleton",
+    ".index.ts",
   ],
 
   // Indicates which provider should be used to instrument code for coverage
