@@ -1,5 +1,6 @@
 import { Navbar } from "@/components";
 import StoreProvider from "@/providers/storeProvider";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Quicksand } from "next/font/google";
 import "./globals.css";
@@ -25,6 +26,7 @@ export default function RootLayout({
           <Navbar />
           <main className="flex-grow ml-12 sm:ml-24">{children}</main>
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );
