@@ -11,6 +11,8 @@ export const metadata: Metadata = {
   description: "Infura Block Exolorer",
 };
 
+export const revalidate = 0;
+
 export default function RootLayout({
   children,
 }: Readonly<{
