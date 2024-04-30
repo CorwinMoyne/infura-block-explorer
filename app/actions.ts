@@ -9,6 +9,34 @@ const web3Provider = new Web3.providers.HttpProvider(provider);
 const web3 = new Web3(web3Provider);
 
 /**
+ * Formats the blocks to the correct structure
+ *
+ * @param blocks The blocks to format
+ * @returns IBlock[]
+ */
+function formatBlocks(blocks: IBlock[]): IBlock[] {
+  return blocks.map((block) => {
+    return {
+      hash: block.hash,
+      number: block.number.toString(),
+      transactions: (block.transactions as string[]).map(
+        (transaction: string) => {
+          return {
+            hash: transaction,
+            from: "",
+            to: "",
+            ethValue: "",
+            dollarValue: "",
+            exchangeRate: "",
+          };
+        }
+      ),
+      timestamp: block.timestamp.toString(),
+    };
+  });
+}
+
+/**
  * Returns the latest block number
  *
  * @returns string | undefined
@@ -40,7 +68,7 @@ export async function getGasPrice() {
  *
  * @returns Promise<Block[]>
  */
-export async function getBlocks(last?: string) {
+export async function getBlocks(last?: string): Promise<IBlock[]> {
   const latestBlock = last ? Number(last) - 1 : await web3.eth.getBlockNumber();
   const blocks: IBlock[] = [];
 
@@ -51,14 +79,7 @@ export async function getBlocks(last?: string) {
     blocks.push(block);
   }
 
-  return blocks.map((block) => {
-    return {
-      hash: block.hash,
-      number: block.number.toString(),
-      transactions: block.transactions,
-      timestamp: block.timestamp.toString(),
-    };
-  });
+  return formatBlocks(blocks);
 }
 
 /**
@@ -66,7 +87,9 @@ export async function getBlocks(last?: string) {
  *
  * @returns Promise<Block[]>
  */
-export async function getLatestBlocks(newestBlockNumber: string) {
+export async function getLatestBlocks(
+  newestBlockNumber: string
+): Promise<IBlock[]> {
   const latestBlock = await web3.eth.getBlockNumber();
   const blocks: IBlock[] = [];
 
@@ -77,14 +100,7 @@ export async function getLatestBlocks(newestBlockNumber: string) {
     blocks.push(block);
   }
 
-  return blocks.map((block) => {
-    return {
-      hash: block.hash,
-      number: block.number.toString(),
-      transactions: block.transactions,
-      timestamp: block.timestamp.toString(),
-    };
-  });
+  return formatBlocks(blocks);
 }
 
 /**

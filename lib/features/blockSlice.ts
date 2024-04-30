@@ -1,6 +1,6 @@
 import { cStatusType } from "@/constants";
-import { IBlock } from "@/types";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { IBlock, ITransaction } from "@/types";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 
 interface BlockSliceState {
@@ -31,10 +31,35 @@ export const slice = createSlice({
       const copy = state.entries;
       state.entries = [...copy, ...action.payload];
     },
+    updateTransaction: (
+      state,
+      action: PayloadAction<{ hash: String; transaction: ITransaction }>
+    ) => {
+      const copy = state.entries;
+      const { from, to, ethValue, dollarValue, exchangeRate } =
+        action.payload.transaction;
+      copy.map((block) => {
+        if (block.hash === action.payload.hash) {
+          let foundTransaction = (block.transactions as ITransaction[]).find(
+            (transaction) =>
+              transaction.hash === action.payload.transaction.hash
+          );
+          if (foundTransaction) {
+            foundTransaction.from = from;
+            foundTransaction.to = to;
+            foundTransaction.ethValue = ethValue;
+            foundTransaction.dollarValue = dollarValue;
+            foundTransaction.exchangeRate = exchangeRate;
+          }
+        }
+      });
+      state.entries = copy;
+    },
   },
 });
 
-export const { setBlocks, unshiftBlocks, pushBlocks } = slice.actions;
+export const { setBlocks, unshiftBlocks, pushBlocks, updateTransaction } =
+  slice.actions;
 
 export const selectBlocks = (state: RootState) => state.blocks.entries;
 

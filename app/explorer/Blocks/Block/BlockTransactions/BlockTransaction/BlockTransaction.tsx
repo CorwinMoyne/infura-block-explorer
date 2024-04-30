@@ -2,6 +2,8 @@
 
 import { getTransactionData } from "@/app/actions";
 import Popover from "@/components/Popover/Popover";
+import { updateTransaction } from "@/lib/features/blockSlice";
+import { useAppDispatch } from "@/lib/store";
 import { ITransaction } from "@/types";
 import { currencyFormatter } from "@/utils/currencyFormatter/currencyFormatter";
 import { useEffect, useState } from "react";
@@ -10,64 +12,44 @@ import { useDebounce } from "../../../../../../hooks/useDebounce";
 import MiddleEllipsis from "react-middle-ellipsis";
 
 interface BlockTransactionProps {
-  hash: string;
+  blockHash: string;
+  transaction: ITransaction;
 }
 
 /**
  * The transaction component
  *
- * @param hash The transaction hash
+ * @param blockHash   The block hash
+ * @param transaction The block transaction
  * @returns JSX.Element
  */
-const BlockTransaction = ({ hash }: BlockTransactionProps) => {
-  const [currentHash, setCurrentHash] = useState<string | undefined>("");
-  const [transactionData, setTransactionData] = useState<
-    ITransaction | undefined
-  >();
+const BlockTransaction = ({
+  blockHash,
+  transaction,
+}: BlockTransactionProps) => {
   const [referenceElement, setReferenceElement] =
     useState<HTMLDivElement | null>(null);
   const [currentElement, setCurrentElement] = useState<
     (EventTarget & Element) | null
   >(null);
-  const [cachedTransactions, setCachedTransactions] = useState<ITransaction[]>(
-    []
-  );
 
   // Debounce the current element being set to prevent unnecessary server calls
-  const debouncedElement = useDebounce(currentElement, 500);
+  const debouncedElement = useDebounce(currentElement, 250);
 
-  /**
-   * Returns true if the transaction is in the cache
-   *
-   * @returns boolean
-   */
-  function isInCache() {
-    return (
-      cachedTransactions.find(
-        (transaction) => transaction.hash === currentHash
-      ) !== undefined
-    );
-  }
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // Get the transaction data when the element is active
+    // Get the transaction data when the element is being hovered
     async function getTransaction() {
       if (debouncedElement) {
-        // Search cache for transaction
-        const foundTransaction = cachedTransactions.find(
-          (transaction) => transaction.hash === currentHash
-        );
-        if (foundTransaction) {
-          setTransactionData(foundTransaction);
-        } else {
-          const transactionData = await getTransactionData(currentHash);
-          if (transactionData) {
-            setTransactionData(transactionData);
-            // Add transaction to cache
-            const copy = [...cachedTransactions];
-            copy.push(transactionData);
-            setCachedTransactions(copy);
-          }
+        const transactionData = await getTransactionData(transaction.hash);
+        if (transactionData) {
+          dispatch(
+            updateTransaction({
+              hash: blockHash,
+              transaction: transactionData,
+            })
+          );
         }
       }
     }
@@ -81,7 +63,6 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
    */
   async function handleMouseEnter(event: React.MouseEvent) {
     setCurrentElement(event.currentTarget);
-    setCurrentHash(hash);
   }
 
   /**
@@ -89,7 +70,6 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
    */
   function handleMouseLeave() {
     setCurrentElement(null);
-    setTransactionData(undefined);
   }
 
   return (
@@ -97,13 +77,13 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
       <div
         ref={setReferenceElement}
         className={`w-4 h-4 ${
-          isInCache() ? "bg-kimberly-200" : "bg-kimberly-400"
+          transaction.to ? "bg-kimberly-200" : "bg-kimberly-400"
         }`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         data-testid="block-transaction"
       />
-      {!!debouncedElement && transactionData && (
+      {!!debouncedElement && transaction.to && (
         <Popover referenceElement={referenceElement}>
           <div className="bg-white text-sm gap-2 p-4 grid">
             <div className="flex space-x-2">
@@ -111,7 +91,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
                 <div className="text-gray-500">FROM</div>
                 <div className="text-kimberly-900 font-semibold whitespace-nowrap w-40">
                   <MiddleEllipsis>
-                    <span>{transactionData.from}</span>
+                    <span>{transaction.from}</span>
                   </MiddleEllipsis>
                 </div>
               </div>
@@ -119,7 +99,7 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
                 <div className="text-gray-500">TO</div>
                 <div className="text-kimberly-900 font-semibold whitespace-nowrap w-40">
                   <MiddleEllipsis>
-                    <span>{transactionData.to}</span>
+                    <span>{transaction.to}</span>
                   </MiddleEllipsis>
                 </div>
               </div>
@@ -127,17 +107,13 @@ const BlockTransaction = ({ hash }: BlockTransactionProps) => {
             <div>
               <div className="text-gray-500">VALUE</div>
               <div className="flex space-x-2 text-kimberly-900 font-semibold">
-                <div>{transactionData.ethValue} ETH</div>
+                <div>{transaction.ethValue} ETH</div>
                 <div>
-                  {currencyFormatter.format(
-                    Number(transactionData.dollarValue)
-                  )}
+                  {currencyFormatter.format(Number(transaction.dollarValue))}
                 </div>
                 <div>@</div>
                 <div>
-                  {currencyFormatter.format(
-                    Number(transactionData.exchangeRate)
-                  )}
+                  {currencyFormatter.format(Number(transaction.exchangeRate))}
                 </div>
               </div>
             </div>

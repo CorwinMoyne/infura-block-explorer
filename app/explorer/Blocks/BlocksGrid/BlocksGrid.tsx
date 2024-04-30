@@ -50,7 +50,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
     // If the user is not hovering over a block, update the blocks every 10 secs
     if (!isHovering) {
       intervalId.current = setInterval(() => {
-        updateBlocks();        
+        updateBlocks();
       }, 10000);
     } else {
       if (intervalId.current) {
@@ -71,9 +71,9 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
    */
   async function loadMoreBlocks() {
     try {
-      setIsLoading(true);      
-      const lastBlock = blocks[blocks.length - 1];      
-      const newBlocks = await getBlocks(lastBlock.number);      
+      setIsLoading(true);
+      const lastBlock = blocks[blocks.length - 1];
+      const newBlocks = await getBlocks(lastBlock.number);
       dispatch(pushBlocks(newBlocks));
     } catch (error) {
       console.error(error);

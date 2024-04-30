@@ -12,7 +12,7 @@ jest.mock("../../../../../../hooks/useDebounce", () => ({
 }));
 
 it("should render a transaction", () => {
-  render(<BlockTransaction hash={mockBlocks[0].hash} />);
+  render(<BlockTransaction transaction={mockBlocks[0].hash} />);
 
   expect(screen.getByTestId("block-transaction")).toBeInTheDocument();
   expect(screen.getByTestId("block-transaction")).toHaveClass(
@@ -21,7 +21,7 @@ it("should render a transaction", () => {
 });
 
 it("should render a popover on hover", async () => {
-  render(<BlockTransaction hash={mockBlocks[0].hash} />);
+  render(<BlockTransaction transaction={mockBlocks[0].hash} />);
 
   fireEvent.mouseOver(screen.getByTestId("block-transaction"));
 
