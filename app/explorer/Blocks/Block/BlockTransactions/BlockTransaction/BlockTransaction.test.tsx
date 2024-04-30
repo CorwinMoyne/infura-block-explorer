@@ -1,4 +1,6 @@
-import { mockBlocks, mockTransaction } from "@/mocks/blocks";
+import { mockTransaction } from "@/mocks/blocks";
+import StoreProvider from "@/providers/storeProvider";
+import { ITransaction } from "@/types";
 import { currencyFormatter } from "@/utils/currencyFormatter/currencyFormatter";
 import { fireEvent, render, screen } from "@testing-library/react";
 import { BlockTransaction } from ".";
@@ -12,16 +14,30 @@ jest.mock("../../../../../../hooks/useDebounce", () => ({
 }));
 
 it("should render a transaction", () => {
-  render(<BlockTransaction transaction={mockBlocks[0].hash} />);
+  render(
+    <StoreProvider>
+      <BlockTransaction
+        blockHash={mockTransaction.hash}
+        transaction={mockTransaction as ITransaction}
+      />
+    </StoreProvider>
+  );
 
   expect(screen.getByTestId("block-transaction")).toBeInTheDocument();
   expect(screen.getByTestId("block-transaction")).toHaveClass(
-    "w-4 h-4 bg-kimberly-400"
+    "w-4 h-4 bg-kimberly-200"
   );
 });
 
 it("should render a popover on hover", async () => {
-  render(<BlockTransaction transaction={mockBlocks[0].hash} />);
+  render(
+    <StoreProvider>
+      <BlockTransaction
+        blockHash={mockTransaction.hash}
+        transaction={mockTransaction as ITransaction}
+      />
+    </StoreProvider>
+  );
 
   fireEvent.mouseOver(screen.getByTestId("block-transaction"));
 
