@@ -39,19 +39,26 @@ const BlockTransaction = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // Make the transaction spin when getting data
+    referenceElement?.classList.add("animate-spin");
     // Get the transaction data when the element is being hovered
     async function getTransaction() {
       if (debouncedElement) {
-        const transactionData = await getTransactionData(transaction.hash);
-        if (transactionData) {
-          dispatch(
-            updateTransaction({
-              hash: blockHash,
-              transaction: transactionData,
-            })
-          );
+        try {
+          const transactionData = await getTransactionData(transaction.hash);
+          if (transactionData) {
+            dispatch(
+              updateTransaction({
+                hash: blockHash,
+                transaction: transactionData,
+              })
+            );
+          }
+        } catch (error) {
+          console.error(error);
         }
       }
+      referenceElement?.classList.remove("animate-spin");
     }
     getTransaction();
   }, [debouncedElement]);
