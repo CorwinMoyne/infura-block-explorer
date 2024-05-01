@@ -14,7 +14,7 @@ export function durationFromDate(date: string) {
     case diffInSeconds < 2620800:
       return `${Math.round(diffInSeconds / 86400)}d`;
     case diffInSeconds < 31449600:
-      return `${Math.round(diffInSeconds / 2620800)}m`;
+      return `${Math.round(diffInSeconds / 2620800)}mths`;
     default:
       return `${Math.round(diffInSeconds / 31449600)}y`;
   }

@@ -27,7 +27,7 @@ it("should return the number of days", () => {
 
 it("should return the number of months", () => {
   const result = durationFromDate("1705231920");
-  expect(result).toBe("1m");
+  expect(result).toBe("1mths");
 });
 
 it("should return the number of years", () => {
