@@ -3,6 +3,7 @@ import StoreProvider from "@/providers/storeProvider";
 import { ITransaction } from "@/types";
 import { currencyFormatter } from "@/utils/currencyFormatter/currencyFormatter";
 import { fireEvent, render, screen } from "@testing-library/react";
+import { act } from "react-dom/test-utils";
 import { BlockTransaction } from ".";
 
 jest.mock("../../../../../actions", () => ({
@@ -39,7 +40,7 @@ it("should render a popover on hover", async () => {
     </StoreProvider>
   );
 
-  fireEvent.mouseOver(screen.getByTestId("block-transaction"));
+  act(() => fireEvent.mouseOver(screen.getByTestId("block-transaction")));
 
   expect(await screen.findByTestId("popover")).toBeInTheDocument();
 
