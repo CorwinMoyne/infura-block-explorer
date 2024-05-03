@@ -17,9 +17,15 @@ interface NavbarLinkProps {
  * @param icon     The icon to display
  * @param children React children
  * @param pathname The current url pathname
- * @returns
+ * @returns JSX.Element
  */
-const NavbarLink = ({ href, icon, children, pathname, testId }: NavbarLinkProps) => {
+const NavbarLink = ({
+  href,
+  icon,
+  children,
+  pathname,
+  testId,
+}: NavbarLinkProps) => {
   return (
     <Link
       href={href || ""}
