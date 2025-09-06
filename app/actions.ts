@@ -2,7 +2,7 @@
 
 import { INITIAL_NUMBER_OF_BLOCKS } from "@/constants";
 import { IBlock, ITransaction } from "@/types";
-import { Web3 } from "web3";
+import Web3 from "web3";
 
 // Validate environment variables
 if (!process.env.NETWORK || !process.env.INFURA_API_KEY) {
@@ -11,9 +11,11 @@ if (!process.env.NETWORK || !process.env.INFURA_API_KEY) {
   );
 }
 
-const provider = `https://${process.env.NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`;
-const web3Provider = new Web3.providers.HttpProvider(provider);
-const web3 = new Web3(web3Provider);
+const web3 = new Web3(
+  new Web3.providers.HttpProvider(
+    `https://${process.env.NETWORK}.infura.io/v3/${process.env.INFURA_API_KEY}`
+  )
+);
 
 /**
  * Formats the blocks to the correct structure
@@ -140,52 +142,57 @@ export async function getTransactionData(
     return;
   }
 
-  const transaction = await web3.eth.getTransaction(transactionHash);
-  const ethValue = web3.utils.fromWei(transaction.value, "ether");
-  const { hash, from, to } = transaction;
+  try {
+    const transaction = await web3.eth.getTransaction(transactionHash);
+    const ethValue = web3.utils.fromWei(transaction.value, "ether");
+    const { hash, from, to } = transaction;
 
-  if (!process.env.CRYPTO_COMPARE_API_KEY) {
-    console.warn(
-      "CRYPTO_COMPARE_API_KEY not set, using fallback exchange rate"
+    if (!process.env.CRYPTO_COMPARE_API_KEY) {
+      console.warn(
+        "CRYPTO_COMPARE_API_KEY not set, using fallback exchange rate"
+      );
+      const dollarValue = "0.00";
+      return {
+        hash,
+        from,
+        to: to as string,
+        ethValue: Number(ethValue).toFixed(3),
+        dollarValue,
+        exchangeRate: "0",
+      };
+    }
+
+    const response = await fetch(
+      `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${process.env.CRYPTO_COMPARE_API_KEY}`
     );
-    const dollarValue = "0.00";
+
+    if (!response.ok) {
+      console.error(`Failed to fetch exchange rate: ${response.statusText}`);
+      const dollarValue = "0.00";
+      return {
+        hash,
+        from,
+        to: to as string,
+        ethValue: Number(ethValue).toFixed(3),
+        dollarValue,
+        exchangeRate: "0",
+      };
+    }
+
+    const data = await response.json();
+    const { USD } = data;
+    const dollarValue = (USD * Number(ethValue)).toFixed(2);
+
     return {
       hash,
       from,
       to: to as string,
       ethValue: Number(ethValue).toFixed(3),
       dollarValue,
-      exchangeRate: "0",
+      exchangeRate: USD,
     };
+  } catch (error) {
+    console.error("Error fetching transaction data:", error);
+    return undefined;
   }
-
-  const response = await fetch(
-    `https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD&api_key=${process.env.CRYPTO_COMPARE_API_KEY}`
-  );
-
-  if (!response.ok) {
-    console.error(`Failed to fetch exchange rate: ${response.statusText}`);
-    const dollarValue = "0.00";
-    return {
-      hash,
-      from,
-      to: to as string,
-      ethValue: Number(ethValue).toFixed(3),
-      dollarValue,
-      exchangeRate: "0",
-    };
-  }
-
-  const data = await response.json();
-  const { USD } = data;
-  const dollarValue = (USD * Number(ethValue)).toFixed(2);
-
-  return {
-    hash,
-    from,
-    to: to as string,
-    ethValue: Number(ethValue).toFixed(3),
-    dollarValue,
-    exchangeRate: USD,
-  };
 }

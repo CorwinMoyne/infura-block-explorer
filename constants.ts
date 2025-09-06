@@ -5,7 +5,7 @@ export enum Route {
   Settings = "/settings",
 }
 
-export const INITIAL_NUMBER_OF_BLOCKS = 12;
+export const INITIAL_NUMBER_OF_BLOCKS = 8;
 
 /**
  * Named constants for API call statuses to be used in state slices

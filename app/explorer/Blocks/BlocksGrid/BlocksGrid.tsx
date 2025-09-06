@@ -41,7 +41,7 @@ const BlocksGrid = ({ initialBlocks }: BlocksGridProps) => {
    * Updates the blocks by adding the latest ones
    */
   async function updateBlocks() {
-    const newestBlockNumber = blocks[0].number;
+    const newestBlockNumber = blocks[0]?.number;
     const updatedBlocks = await getLatestBlocks(newestBlockNumber);
     dispatch(unshiftBlocks(updatedBlocks));
   }
