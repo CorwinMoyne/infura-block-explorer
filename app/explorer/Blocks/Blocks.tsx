@@ -3,7 +3,7 @@ import { BlocksGrid } from "./BlocksGrid";
 
 /**
  * Blocks wrapper
- * 
+ *
  * @returns JSX.Element
  */
 const Blocks = async () => {
